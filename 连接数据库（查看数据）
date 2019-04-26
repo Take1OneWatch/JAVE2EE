@@ -27,8 +27,10 @@ public class DBUtil {
 	   ResultSet rs = stmt.executeQuery("select name from list");
 	   
 	   //输出打印结果！
-	   while(rs.next()) {
+	/*   while(rs.next()) {
 		   System.out.println(rs.getString("name"));
-	   }   
+	   }   */
+	   
+	   System.out.println(rs.getString("name"));
 }
 }
