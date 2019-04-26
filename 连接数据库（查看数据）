@@ -24,15 +24,15 @@ public class DBUtil {
 	   //3.通过数据库的连接，操纵数据库增删改查
 	   java.sql.Statement stmt = conn.createStatement();
 	   
-	   ResultSet rs = stmt.executeQuery("select name from list");
+	   ResultSet rs = stmt.executeQuery("select name,sex,num from list");
 	   
 	   //输出打印结果！
-	/*   while(rs.next()) {
-		   System.out.println(rs.getString("name"));
-	   }   */
+	  while(rs.next()) {
+		   System.out.println(rs.getString("name")+" "+rs.getString("sex")+"              "+rs.getInt("num"));
+	   }  
 	   
-	   System.out.println(rs.getString("name
+	    
 	   
-	   //注意导SQLjdbc.jar包，还有注意1433端口
+	//   System.out.println(rs.getString("name")); 这种连接方式上不完善，暂不建议使用
 }
 }
