@@ -31,6 +31,8 @@ public class DBUtil {
 		   System.out.println(rs.getString("name"));
 	   }   */
 	   
-	   System.out.println(rs.getString("name"));
+	   System.out.println(rs.getString("name
+	   
+	   //注意导SQLjdbc.jar包，还有注意1433端口
 }
 }
