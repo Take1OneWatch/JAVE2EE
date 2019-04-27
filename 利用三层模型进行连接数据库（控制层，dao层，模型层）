@@ -1,0 +1,216 @@
+package com.imooc.db;
+
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+//这个类主要的工作是提供连接服务器的驱动
+public class DBUtil {
+	
+	private static final String URL="jdbc:sqlserver://localhost:1433;DatabaseName=BookDB;";
+	private static final String USER="sa";
+	private static final String PASSWORD="123456";
+	
+
+	private static Connection conn = null;
+	
+	static {
+		try {
+			//加载驱动程序
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		} catch (ClassNotFoundException e) {
+			
+			e.printStackTrace();
+		} 
+		// 2.获得数据库的连接
+
+		// 此处需要设置三个常量来存放地址，用户名，还有密码
+		try {
+		conn = DriverManager.getConnection(URL, USER, PASSWORD);
+		} catch (SQLException e) {
+	
+			e.printStackTrace();
+		}
+
+	}
+	
+	//设置一个外界可以获取这个连接的方法！
+	public static Connection getConnection() {
+		return conn;
+	}
+	
+	
+   public static void main(String[] args) throws Exception {
+	  
+	    //1.加载驱动程序
+	   /*   Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	   //2.获得数据库的连接
+	   
+	   //此处需要设置三个常量来存放地址，用户名，还有密码
+	   Connection  conn = DriverManager.getConnection(URL, USER, PASSWORD); 
+	   
+	   //3.通过数据库的连接，操纵数据库增删改查
+		   java.sql.Statement stmt = conn.createStatement();
+		   //此处executeQuery为查询数据库的特定语句
+		   ResultSet rs = stmt.executeQuery("select name,sex,num from list");
+		   
+		   //输出打印结果！
+		  while(rs.next()) {
+			   System.out.println(rs.getString("name")+" "+rs.getString("sex")+"              "+rs.getInt("num"));
+		   }  */
+	   
+	//  System.out.println(rs.getString("name"));
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.imooc.model;
+
+//这个类是对应数据库对象
+public class Goddess {
+
+	private String name;
+	private String sex;
+	private Integer num;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public Integer getNum() {
+		return num;
+	}
+
+	public void setNum(Integer num) {
+		this.num = num;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.imooc.dao;
+
+import java.awt.List;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.imooc.db.DBUtil;
+import com.imooc.model.Goddess;
+
+public class GoddessDao {
+
+	public void addGoddess() {
+		
+	}
+	
+    public void updateGoddess() {
+		 
+	}
+    
+    public void deleteGoddess() {
+		
+	}
+   //这里是对数据库进行指定的操作
+   public java.util.List<Goddess> query() throws Exception{
+	   //从DBUil类中拿到连接
+	   Connection conn = DBUtil.getConnection();
+	   
+	   java.sql.Statement stmt = conn.createStatement();
+	   //此处executeQuery为查询数据库的特定语句
+	   ResultSet rs = stmt.executeQuery("select name,sex,num from list");
+	   
+	   
+	   java.util.List<Goddess> gs = new ArrayList<Goddess>();
+	   Goddess g = null;
+	   
+	   //输出打印结果！
+	  while(rs.next()) {
+		  g = new Goddess();
+		  g.setName(rs.getString("name"));//
+		  g.setSex(rs.getString("sex"));
+		  g.setNum(rs.getInt("num"));
+		  
+		  gs.add(g);
+	   }  
+	   //返回集合
+	   return gs;
+   }
+   
+    public Goddess set() {
+		return null;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+package com.imooc.action;
+
+import java.util.List;
+
+import com.imooc.dao.GoddessDao;
+import com.imooc.model.Goddess;
+
+public class GoddessAction {
+
+	public static void main(String[] args) throws Exception {
+		GoddessDao g = new GoddessDao();
+		
+		//此处返回的是一个集合
+		List<Goddess> gs = g.query();
+		
+		for (Goddess goddess : gs) {
+			System.out.println(goddess.getName()+","+goddess.getSex()+","+goddess.getNum());
+		}
+	}
+}
+
+
