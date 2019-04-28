@@ -129,6 +129,7 @@ package com.imooc.dao;
 
 import java.awt.List;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -138,7 +139,21 @@ import com.imooc.model.Goddess;
 
 public class GoddessDao {
 
-	public void addGoddess() {
+	public void addGoddess(Goddess g) throws SQLException {
+		Connection conn = DBUtil.getConnection();
+		String sql = ""+
+		           "insert into list"+
+				"(name,sex,num)"+
+		           "values("+
+				"?,?,?)";
+		
+		PreparedStatement ptmt = conn.prepareStatement(sql);
+		
+		ptmt.setString(1, g.getName());
+		ptmt.setString(2, g.getSex());
+		ptmt.setInt(3, g.getNum());
+		
+		ptmt.execute();
 		
 	}
 	
@@ -191,7 +206,6 @@ public class GoddessDao {
 
 
 
-
 package com.imooc.action;
 
 import java.util.List;
@@ -204,12 +218,22 @@ public class GoddessAction {
 	public static void main(String[] args) throws Exception {
 		GoddessDao g = new GoddessDao();
 		
-		//此处返回的是一个集合
-		List<Goddess> gs = g.query();
+		Goddess g1 = new Goddess();
 		
-		for (Goddess goddess : gs) {
-			System.out.println(goddess.getName()+","+goddess.getSex()+","+goddess.getNum());
-		}
+		g1.setName("超越妹妹");
+		g1.setSex("女");
+		g1.setNum(11111);
+		
+		g.addGoddess(g1);
+		
+		
+		
+		//此处返回的是一个集合
+//		List<Goddess> gs = g.query();
+//		
+//		for (Goddess goddess : gs) {
+//			System.out.println(goddess.getName()+","+goddess.getSex()+","+goddess.getNum());
+//		}
 	}
 }
 
