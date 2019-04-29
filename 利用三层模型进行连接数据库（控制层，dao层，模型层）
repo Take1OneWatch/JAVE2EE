@@ -289,12 +289,13 @@ public class GoddessAction {
 		  //查询单个数据信息，并打印输出
 		Goddess g2 = g.set(1);
 		System.out.println(g2.toString());
-		
+		//删除数据，括号内是删除的数据的ID
+		g.deleteGoddess(1);
 		
 //		g1.setId(1);
 //		g.updateGoddess(g1);
-//		
-//    	g.addGoddess(g1);
+                //向数据库增加数据		
+//              g.addGoddess(g1);
 //		
 
 		
