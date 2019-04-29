@@ -286,7 +286,7 @@ public class GoddessAction {
 		g1.setSex("女");
 		g1.setAge(21);
 		g1.setNum(10086);
-		 
+		  //查询单个数据信息，并打印输出
 		Goddess g2 = g.set(1);
 		System.out.println(g2.toString());
 		
