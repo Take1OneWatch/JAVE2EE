@@ -45,27 +45,9 @@ public class DBUtil {
 	
    public static void main(String[] args) throws Exception {
 	  
-	    //1.加载驱动程序
-	   /*   Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	   //2.获得数据库的连接
-	   
-	   //此处需要设置三个常量来存放地址，用户名，还有密码
-	   Connection  conn = DriverManager.getConnection(URL, USER, PASSWORD); 
-	   
-	   //3.通过数据库的连接，操纵数据库增删改查
-		   java.sql.Statement stmt = conn.createStatement();
-		   //此处executeQuery为查询数据库的特定语句
-		   ResultSet rs = stmt.executeQuery("select name,sex,num from list");
-		   
-		   //输出打印结果！
-		  while(rs.next()) {
-			   System.out.println(rs.getString("name")+" "+rs.getString("sex")+"              "+rs.getInt("num"));
-		   }  */
-	   
-	//  System.out.println(rs.getString("name"));
+	 
 }
 }
-
 
 
 
@@ -84,9 +66,27 @@ package com.imooc.model;
 //这个类是对应数据库对象
 public class Goddess {
 
+	private Integer id;
 	private String name;
 	private String sex;
+	private Integer age;
 	private Integer num;
+
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 
 	public String getName() {
 		return name;
@@ -111,8 +111,16 @@ public class Goddess {
 	public void setNum(Integer num) {
 		this.num = num;
 	}
-}
 
+	@Override
+	public String toString() {
+		return "Goddess [id=" + id + ", name=" + name + ", sex=" + sex + ", age=" + age + ", num=" + num + "]";
+	}
+	
+	
+	
+	
+}
 
 
 
@@ -143,26 +151,52 @@ public class GoddessDao {
 		Connection conn = DBUtil.getConnection();
 		String sql = ""+
 		           "insert into list"+
-				"(name,sex,num)"+
+				"(id,name,sex,age,num)"+
 		           "values("+
-				"?,?,?)";
+				"?,?,?,?,?)";
 		
 		PreparedStatement ptmt = conn.prepareStatement(sql);
-		
-		ptmt.setString(1, g.getName());
-		ptmt.setString(2, g.getSex());
-		ptmt.setInt(3, g.getNum());
+		ptmt.setInt(1,g.getId());
+		ptmt.setString(2, g.getName());
+		ptmt.setString(3, g.getSex());
+		ptmt.setInt(4, g.getAge());
+		ptmt.setInt(5, g.getNum());
 		
 		ptmt.execute();
 		
 	}
 	
-    public void updateGoddess() {
-		 
+    public void updateGoddess(Goddess g) throws SQLException {
+	
+    	Connection conn = DBUtil.getConnection();
+		String sql = ""+
+		           " update list" +
+				   " set id=?,name=?,sex=?,age=?,num=?" + 
+		           " where id=?";
+		
+		PreparedStatement ptmt = conn.prepareStatement(sql);
+		ptmt.setInt(1,g.getId());
+		ptmt.setString(2, g.getName());
+		ptmt.setString(3, g.getSex());
+		ptmt.setInt(4, g.getAge());
+		ptmt.setInt(5, g.getNum());
+		
+		ptmt.execute(); 
+		
 	}
     
-    public void deleteGoddess() {
+    public void deleteGoddess(Integer id) throws SQLException {
+    	Connection conn = DBUtil.getConnection();
+		String sql = ""+
+		           " delete from list" +
+		           " where id=?";
 		
+		PreparedStatement ptmt = conn.prepareStatement(sql);
+		ptmt.setInt(1, id);
+		//execute函数用于新增，修改，删除数据库的操作
+		ptmt.execute();
+
+    	 
 	}
    //这里是对数据库进行指定的操作
    public java.util.List<Goddess> query() throws Exception{
@@ -180,8 +214,9 @@ public class GoddessDao {
 	   //输出打印结果！
 	  while(rs.next()) {
 		  g = new Goddess();
-		  g.setName(rs.getString("name"));//
+		  g.setName(rs.getString("name"));
 		  g.setSex(rs.getString("sex"));
+		  g.setAge(rs.getInt("age"));
 		  g.setNum(rs.getInt("num"));
 		  
 		  gs.add(g);
@@ -190,10 +225,35 @@ public class GoddessDao {
 	   return gs;
    }
    
-    public Goddess set() {
-		return null;
+   //查询单个女神的信息
+    public Goddess set(Integer id) throws Exception {
+    	Goddess g= null;
+    	Connection conn = DBUtil.getConnection();
+		String sql = "" +
+		           " select * from list" +
+		           " where id=?";
+		
+		PreparedStatement ptmt = conn.prepareStatement(sql);
+		
+		
+		ptmt.setInt(1, id);
+		
+		ResultSet rs = ptmt.executeQuery();
+    	
+		while(rs.next()) {
+			g=new Goddess();
+			g.setId(rs.getInt("id"));
+			g.setName(rs.getString("name"));
+			g.setSex(rs.getString("sex"));
+			g.setAge(rs.getInt("age"));
+			g.setNum(rs.getInt("num"));
+		}
+    	
+    	
+		return g;
 	}
 }
+
 
 
 
@@ -220,13 +280,23 @@ public class GoddessAction {
 		
 		Goddess g1 = new Goddess();
 		
-		g1.setName("超越妹妹");
+		
+		
+		g1.setName("迪丽热巴");
 		g1.setSex("女");
-		g1.setNum(11111);
+		g1.setAge(21);
+		g1.setNum(10086);
+		 
+		Goddess g2 = g.set(1);
+		System.out.println(g2.toString());
 		
-		g.addGoddess(g1);
 		
-		
+//		g1.setId(1);
+//		g.updateGoddess(g1);
+//		
+//    	g.addGoddess(g1);
+//		
+
 		
 		//此处返回的是一个集合
 //		List<Goddess> gs = g.query();
@@ -236,5 +306,4 @@ public class GoddessAction {
 //		}
 	}
 }
-
 
