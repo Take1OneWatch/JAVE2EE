@@ -180,7 +180,7 @@ public class GoddessDao {
 		ptmt.setString(3, g.getSex());
 		ptmt.setInt(4, g.getAge());
 		ptmt.setInt(5, g.getNum());
-		
+		ptmt.setInt(6,g.getId());
 		ptmt.execute(); 
 		
 	}
@@ -269,33 +269,89 @@ public class GoddessDao {
 package com.imooc.action;
 
 import java.util.List;
-
 import com.imooc.dao.GoddessDao;
 import com.imooc.model.Goddess;
+import java.util.*;
+
 
 public class GoddessAction {
 
-	public static void main(String[] args) throws Exception {
+	public void cha() throws Exception{
 		GoddessDao g = new GoddessDao();
-		
 		Goddess g1 = new Goddess();
-		
-		
-		
-		g1.setName("迪丽热巴");
+		//括号内的数字代表的是要查询的数据的ID
+		Goddess g2 = g.set(3);
+		System.out.println(g2.toString());
+
+//		List<Goddess> gs = g.query();
+//		for (Goddess goddess : gs) {
+//			System.out.println(goddess.getId()+","+goddess.getName()+","+goddess.getSex()+","+goddess.getAge()+","+goddess.getNum());
+//		}
+	}
+	
+	public void shan() throws Exception {
+		//删除数据，括号内是删除的数据的ID
+		GoddessDao g = new GoddessDao();
+		Goddess g1 = new Goddess();
+		g.deleteGoddess(3);
+	}
+	
+	public void zeng() throws Exception {
+		//删除数据，括号内是删除的数据的ID
+		GoddessDao g = new GoddessDao();
+		Goddess g1 = new Goddess();
+	
+		g1.setId(1);
+		g1.setName("马面");
 		g1.setSex("女");
 		g1.setAge(21);
 		g1.setNum(10086);
-		  //查询单个数据信息，并打印输出
-		Goddess g2 = g.set(1);
-		System.out.println(g2.toString());
-		//删除数据，括号内是删除的数据的ID
-		g.deleteGoddess(1);
+      	g.addGoddess(g1);
+	}
+	
+	public void gai() throws Exception{
+		GoddessDao g = new GoddessDao();
+		Goddess g1 = new Goddess();
+		g1.setId(1);
+		g1.setName("马面");
+		g1.setSex("女");
+		g1.setAge(21);
+		g1.setNum(10086);
+		 //查询单个数据信息，并打印输出
+		g.updateGoddess(g1);
+	}
+	
+	
+	public static void main(String[] args) throws Exception {
 		
-//		g1.setId(1);
+		
+		System.out.println("欢迎来到车辆租聘中心");
+		System.out.println("请选择你所需要的服务：按1查询车辆");
+		Scanner x1= new Scanner(System.in);
+		int x =x1.nextInt();
+		if(x==1) {
+			GoddessAction it = new GoddessAction();
+			it.gai();
+		}
+//		if(x==2) {
+//			GoddessAction it2 = new GoddessAction();
+//			it2.shan();
+//		}
+//		if(x==3) {
+//			GoddessAction it3 = new GoddessAction();
+//			it3.zeng();
+//			GoddessDao g = new GoddessDao();
+//			Goddess g1 = new Goddess();
+//			Goddess g2 = g.set(3);
+//			System.out.println(g2.toString());
+//		}
+		
+		
+		
+		
 //		g.updateGoddess(g1);
-                //向数据库增加数据		
-//              g.addGoddess(g1);
+//		
+
 //		
 
 		
@@ -307,4 +363,3 @@ public class GoddessAction {
 //		}
 	}
 }
-
