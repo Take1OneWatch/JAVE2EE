@@ -50,20 +50,13 @@ public class User extends JFrame implements ActionListener {
 		 Font x1 = new Font("黑体",Font.BOLD,16);
 		 c1.setFont(x1);
 		 shu = new JMenuItem("添加书籍");	
-		 Font p = new Font("黑体",Font.BOLD,16);
-		 shu.setFont(p);
-		 
+		 shu.setFont(x1);
 		 shu1 = new JMenuItem("删除书籍");	
-		 Font p1 = new Font("黑体",Font.BOLD,16);
-		 shu1.setFont(p1);
-		 
+		 shu1.setFont(x1);
 		 shu2 = new JMenuItem("修改书籍");	
-		 Font p2 = new Font("黑体",Font.BOLD,16);
-		 shu2.setFont(p2);
-		 
+		 shu2.setFont(x1); 
 		 shu3 = new JMenuItem("查找书籍");	
-		 Font p3 = new Font("黑体",Font.BOLD,16);
-		 shu3.setFont(p3);
+		 shu3.setFont(x1);
 		 
 		 c1.add(shu);
 		 c1.add(shu1);
@@ -72,8 +65,7 @@ public class User extends JFrame implements ActionListener {
 		 
 		 
 		 c2 = new JMenu("课程管理");
-		 Font z = new Font("黑体",Font.BOLD,16);
-		 c2.setFont(z);
+		 c2.setFont(x1);
 		 
 		 
 		 
@@ -82,15 +74,12 @@ public class User extends JFrame implements ActionListener {
 		 c3 = new JMenu("借阅管理");
 		 item1 = new JMenuItem("借阅书籍");
 		 item1.addActionListener(this);
-		 Font x3 = new Font("黑体",Font.BOLD,16);
-		 item1.setFont(x3);
+		 item1.setFont(x1);
 		 item2 = new JMenuItem("归还书籍");
-		 Font x5 = new Font("黑体",Font.BOLD,16);
-		 item2.setFont(x5);
+		 item2.setFont(x1);
 		 c3.add(item1);
 		 c3.add(item2);
-		 Font x4 = new Font("黑体",Font.BOLD,16);
-		 c3.setFont(x4);
+		 c3.setFont(x1);
 		 
 		 bar.add(c);
 		 bar.add(c1);
@@ -113,8 +102,8 @@ public class User extends JFrame implements ActionListener {
 		 
 
 		 jb2 = new JButton("增加读者信息");
-		 Font f1 = new Font("宋体",Font.BOLD,20);
-		 jb2.setFont(f1);
+		 
+		 jb2.setFont(f);
 		 jb2.setBackground(Color.GREEN);
 		 jb2.addActionListener(this);// 添加动作响应器
 		 jp2.add(jb2);
@@ -124,16 +113,16 @@ public class User extends JFrame implements ActionListener {
 		 JPanel jp3 = new JPanel();
 		 jp3.setBackground(Color.CYAN);
 		 jb3 = new JButton("删除读者信息");
-		 Font f3 = new Font("宋体",Font.BOLD,20);
-		 jb3.setFont(f3);
+		
+		 jb3.setFont(f);
 		 jb3.setBackground(Color.red);
 		 jb3.addActionListener(this);// 添加动作响应器
 		 jp3.add(jb3);
 		 
 	
 		 jb4 = new JButton("修改读者信息");
-		 Font f4 = new Font("宋体",Font.BOLD,20);
-		 jb4.setFont(f4);
+	
+		 jb4.setFont(f);
 		 jb4.setBackground(Color.YELLOW);
 		 jb4.addActionListener(this);// 添加动作响应器
 		 jp3.add(jb4);
@@ -143,8 +132,8 @@ public class User extends JFrame implements ActionListener {
 		 JPanel jp4 = new JPanel();
 		 jp4.setBackground(Color.CYAN);
 		 jb5=new JButton("退出登录");
-		 Font f5 = new Font("宋体",Font.BOLD,20);
-		 jb5.setFont(f5);
+		
+		 jb5.setFont(f);
 		 jb5.setBackground(Color.WHITE);
 		 jb5.addActionListener(this);
 		 jp4.add(jb5);
