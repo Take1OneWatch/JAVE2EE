@@ -1,0 +1,213 @@
+package com.imooc.kong;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import com.imooc.action.GoddessAction;
+import com.imooc.dao.GoddessDao;
+import com.imooc.model.Goddess;
+public class User extends JFrame implements ActionListener {
+	 JButton jb1,jb2,jb3,jb4,jb5;//按钮
+	 JLabel jl;
+	 JMenuBar bar,bar1,bar2,bar3;
+	 JMenuItem item,item1,item2,item3,shu,shu1,shu2,shu3,mi;
+	 JMenu c,c1,c2,c3;
+	 public User() {
+		 setTitle("教师信息管理管理");
+		 setSize(600, 500);
+		 setLocationRelativeTo(null);//设置窗口居中
+		 setLayout(new BorderLayout());
+		 JPanel jp = new JPanel();
+		 jp.setLayout(new GridLayout(4, 1));
+		 jp.setBackground(Color.BLUE);
+		 
+		 
+		 JPanel jp1 = new JPanel();
+		 jp1.setBackground(Color.CYAN);
+		 jl=new JLabel("欢迎来到教师信息管理系统");
+		 jl.setFont(new Font("宋体",Font.BOLD,20)); 
+		 jp1.add(jl);
+		 jp.add(jp1);
+		 
+		 //对菜单栏的设计
+		 bar = new JMenuBar();
+		 bar.setBackground(Color.white);
+		
+		 
+		 
+		 c = new JMenu("系统管理");
+		 Font x = new Font("黑体",Font.BOLD,16);
+		 c.setFont(x);
+		 mi = new JMenuItem("修改密码");
+		 Font m = new Font("黑体",Font.BOLD,16);
+		 mi.setFont(m);
+		 c.add(mi);
+		 
+		 
+		 
+		 
+		 c1 = new JMenu("书籍管理");
+		 Font x1 = new Font("黑体",Font.BOLD,16);
+		 c1.setFont(x1);
+		 shu = new JMenuItem("添加书籍");	
+		 Font p = new Font("黑体",Font.BOLD,16);
+		 shu.setFont(p);
+		 
+		 shu1 = new JMenuItem("删除书籍");	
+		 Font p1 = new Font("黑体",Font.BOLD,16);
+		 shu1.setFont(p1);
+		 
+		 shu2 = new JMenuItem("修改书籍");	
+		 Font p2 = new Font("黑体",Font.BOLD,16);
+		 shu2.setFont(p2);
+		 
+		 shu3 = new JMenuItem("查找书籍");	
+		 Font p3 = new Font("黑体",Font.BOLD,16);
+		 shu3.setFont(p3);
+		 
+		 c1.add(shu);
+		 c1.add(shu1);
+		 c1.add(shu2);
+		 c1.add(shu3);
+		 
+		 
+		 c2 = new JMenu("课程管理");
+		 Font z = new Font("黑体",Font.BOLD,16);
+		 c2.setFont(z);
+		 
+		 
+		 
+		 
+		 
+		 c3 = new JMenu("借阅管理");
+		 item1 = new JMenuItem("借阅书籍");
+		 item1.addActionListener(this);
+		 Font x3 = new Font("黑体",Font.BOLD,16);
+		 item1.setFont(x3);
+		 item2 = new JMenuItem("归还书籍");
+		 Font x5 = new Font("黑体",Font.BOLD,16);
+		 item2.setFont(x5);
+		 c3.add(item1);
+		 c3.add(item2);
+		 Font x4 = new Font("黑体",Font.BOLD,16);
+		 c3.setFont(x4);
+		 
+		 bar.add(c);
+		 bar.add(c1);
+		 bar.add(c2);
+		 bar.add(c3);
+		 this.setJMenuBar(bar);
+		 
+		 
+		 
+		 
+		 
+		 JPanel jp2 = new JPanel();		
+		 jp2.setBackground(Color.CYAN);
+		 jb1 = new JButton("查询读者信息");
+		 Font f = new Font("宋体",Font.BOLD,20);
+		 jb1.setFont(f);
+		 jb1.setBackground(Color.WHITE);
+		 jb1.addActionListener(this);// 添加动作响应器
+		 jp2.add(jb1);
+		 
+
+		 jb2 = new JButton("增加读者信息");
+		 Font f1 = new Font("宋体",Font.BOLD,20);
+		 jb2.setFont(f1);
+		 jb2.setBackground(Color.GREEN);
+		 jb2.addActionListener(this);// 添加动作响应器
+		 jp2.add(jb2);
+		 jp.add(jp2);
+		 
+		 
+		 JPanel jp3 = new JPanel();
+		 jp3.setBackground(Color.CYAN);
+		 jb3 = new JButton("删除读者信息");
+		 Font f3 = new Font("宋体",Font.BOLD,20);
+		 jb3.setFont(f3);
+		 jb3.setBackground(Color.red);
+		 jb3.addActionListener(this);// 添加动作响应器
+		 jp3.add(jb3);
+		 
+	
+		 jb4 = new JButton("修改读者信息");
+		 Font f4 = new Font("宋体",Font.BOLD,20);
+		 jb4.setFont(f4);
+		 jb4.setBackground(Color.YELLOW);
+		 jb4.addActionListener(this);// 添加动作响应器
+		 jp3.add(jb4);
+		 jp.add(jp3);
+		 
+		 
+		 JPanel jp4 = new JPanel();
+		 jp4.setBackground(Color.CYAN);
+		 jb5=new JButton("退出登录");
+		 Font f5 = new Font("宋体",Font.BOLD,20);
+		 jb5.setFont(f5);
+		 jb5.setBackground(Color.WHITE);
+		 jb5.addActionListener(this);
+		 jp4.add(jb5);
+		 jp.add(jp4);
+		 add(jp);
+
+	 }
+	 public void actionPerformed(ActionEvent e) {
+		 String cmd = e.getActionCommand();
+		 if (cmd.equals("查询读者信息")) {
+			 GoddessAction it = new GoddessAction();
+			      try {
+					it.cha();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+		 }
+		 
+		 
+		 if (cmd.equals("借阅书籍")) {
+			 GoddessAction it = new GoddessAction();
+			      try {
+					it.cha();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+		 }
+		 
+		 
+		 
+		 if (cmd.equals("增加读者信息")) {
+			 GoddessAction it2 = new GoddessAction();
+			 try {
+				it2.zeng();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		 }
+    		 if (cmd.equals("删除读者信息")) {
+    			 GoddessAction it3 = new GoddessAction();
+    			 try {
+					it3.shan();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}	 
+    		 }
+         if (cmd.equals("修改读者信息")) {
+        	 GoddessAction it4 = new GoddessAction();
+        	 try {
+				it4.gai();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		 }
+		 if (cmd.equals("退出")) {
+			 setVisible(false);// 本窗口隐藏
+			 dispose();//本窗口销毁,释放内存资源
+		 }	 
+	 }
+	 
+
+	 public static void main(String[] args) {
+	        new User().setVisible(true);//创建登录窗口,并可见
+
+	    }
+}
