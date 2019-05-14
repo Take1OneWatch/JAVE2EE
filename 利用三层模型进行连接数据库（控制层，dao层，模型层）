@@ -263,18 +263,26 @@ package com.imooc.action;
 import java.util.List;
 import com.imooc.dao.GoddessDao;
 import com.imooc.model.Goddess;
+import com.imooc.kong.SignIn;
 import com.imooc.kong.User;
 import java.util.*;
 
 
 public class GoddessAction {
-
+    
+	
+	String x,x1;
+	
 	public void cha() throws Exception{
 		//此处为特定查询
+	
 		GoddessDao g = new GoddessDao();
 		Goddess g1 = new Goddess();
 		List<Goddess> gs = g.query("垃圾面");
 			System.out.println(gs.toString());	
+		//	System.out.println(gs.get(0).getAge());	
+			int x = gs.get(0).getAge();
+			System.out.println(x);
 	}
 	
 	
@@ -298,6 +306,19 @@ public class GoddessAction {
 		g1.setAge(21);
 		g1.setNum(10086);
       	g.addGoddess(g1);
+      	System.out.println("成功添加");
+	}
+	
+	
+	public void zeng1() throws Exception {
+	    SignIn t = new SignIn();
+	    
+	    
+		GoddessDao g = new GoddessDao();
+		Goddess g1 = new Goddess();
+		g.addGoddess(g1);
+		g1.setZhang("");
+		g1.setKey("45645456456");
       	System.out.println("成功添加");
 	}
 	
