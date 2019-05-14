@@ -2,6 +2,8 @@ package com.imooc.kong;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
+
 import javax.swing.*;
 import com.imooc.action.GoddessAction;
 import com.imooc.dao.GoddessDao;
@@ -13,7 +15,7 @@ public class User extends JFrame implements ActionListener {
 	 JMenuItem item,item1,item2,item3,shu,shu1,shu2,shu3,mi;
 	 JMenu c,c1,c2,c3;
 	 public User() {
-		 setTitle("教师信息管理管理");
+		 setTitle("教学信息管理管理");
 		 setSize(600, 500);
 		 setLocationRelativeTo(null);//设置窗口居中
 		 setLayout(new BorderLayout());
@@ -39,8 +41,7 @@ public class User extends JFrame implements ActionListener {
 		 Font x = new Font("黑体",Font.BOLD,16);
 		 c.setFont(x);
 		 mi = new JMenuItem("修改密码");
-		 Font m = new Font("黑体",Font.BOLD,16);
-		 mi.setFont(m);
+		 mi.setFont(x);
 		 c.add(mi);
 		 
 		 
@@ -144,25 +145,14 @@ public class User extends JFrame implements ActionListener {
 	 public void actionPerformed(ActionEvent e) {
 		 String cmd = e.getActionCommand();
 		 if (cmd.equals("查询读者信息")) {
-			 GoddessAction it = new GoddessAction();
+			 GoddessDao it = new GoddessDao();
 			      try {
 					it.cha();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
 		 }
-		 
-		 
-		 if (cmd.equals("借阅书籍")) {
-			 GoddessAction it = new GoddessAction();
-			      try {
-					it.cha();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-		 }
-		 
-		 
+
 		 
 		 if (cmd.equals("增加读者信息")) {
 			 GoddessAction it2 = new GoddessAction();
@@ -188,7 +178,7 @@ public class User extends JFrame implements ActionListener {
 				e1.printStackTrace();
 			}
 		 }
-		 if (cmd.equals("退出")) {
+		 if (cmd.equals("退出登录")) {
 			 setVisible(false);// 本窗口隐藏
 			 dispose();//本窗口销毁,释放内存资源
 		 }	 
