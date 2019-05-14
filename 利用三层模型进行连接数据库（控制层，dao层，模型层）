@@ -141,19 +141,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import com.imooc.db.DBUtil;
 import com.imooc.model.Goddess;
+import com.imooc.kong.User;
 
 public class GoddessDao {
 
 	public void addGoddess(Goddess g) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = ""+
-		           "insert into list"+
-				"(id,name,sex,age,num)"+
-		           "values("+
-				"?,?,?,?,?)";
+		           " insert into list "+
+				   " (id,name,sex,age,num) "+
+		           " values( "+
+				   " ?,?,?,?,?) ";
 		
 		PreparedStatement ptmt = conn.prepareStatement(sql);
 		ptmt.setInt(1,g.getId());
@@ -161,17 +161,17 @@ public class GoddessDao {
 		ptmt.setString(3, g.getSex());
 		ptmt.setInt(4, g.getAge());
 		ptmt.setInt(5, g.getNum());
-		
 		ptmt.execute();
-		
 	}
 	
-    public void updateGoddess(Goddess g) throws SQLException {
+
 	
+	
+    public void updateGoddess(Goddess g) throws SQLException {
     	Connection conn = DBUtil.getConnection();
-		String sql = ""+
-		           " update list" +
-				   " set id=?,name=?,sex=?,age=?,num=?" + 
+		String sql = " "+
+		           " update list " +
+				   " set id=?,name=?,sex=?,age=?,num=? " + 
 		           " where id=?";
 		
 		PreparedStatement ptmt = conn.prepareStatement(sql);
@@ -180,7 +180,7 @@ public class GoddessDao {
 		ptmt.setString(3, g.getSex());
 		ptmt.setInt(4, g.getAge());
 		ptmt.setInt(5, g.getNum());
-		ptmt.setInt(6,g.getId());
+		ptmt.setInt(6, g.getId());
 		ptmt.execute(); 
 		
 	}
@@ -199,60 +199,52 @@ public class GoddessDao {
     	 
 	}
    //这里是对数据库进行指定的操作
-   public java.util.List<Goddess> query() throws Exception{
+    //查询单个女神的信息
+   public java.util.List<Goddess> query(String name) throws Exception{
+	   java.util.List<Goddess> gs = new ArrayList<Goddess>();
 	   //从DBUil类中拿到连接
 	   Connection conn = DBUtil.getConnection();
+
+	   StringBuilder x = new StringBuilder();
+	   x.append(" select * from list ");
+	   x.append(" where name = ? ");
 	   
-	   java.sql.Statement stmt = conn.createStatement();
+	   PreparedStatement stmt = conn.prepareStatement(x.toString());
+	   stmt.setString(1,name);
 	   //此处executeQuery为查询数据库的特定语句
-	   ResultSet rs = stmt.executeQuery("select name,sex,num from list");
-	   
-	   
-	   java.util.List<Goddess> gs = new ArrayList<Goddess>();
+	   ResultSet rs = stmt.executeQuery();
+
 	   Goddess g = null;
 	   
 	   //输出打印结果！
 	  while(rs.next()) {
 		  g = new Goddess();
+		  g.setId(rs.getInt("id"));
 		  g.setName(rs.getString("name"));
 		  g.setSex(rs.getString("sex"));
 		  g.setAge(rs.getInt("age"));
 		  g.setNum(rs.getInt("num"));
-		  
 		  gs.add(g);
+
 	   }  
 	   //返回集合
 	   return gs;
    }
    
-   //查询单个女神的信息
-    public Goddess set(Integer id) throws Exception {
-    	Goddess g= null;
-    	Connection conn = DBUtil.getConnection();
-		String sql = "" +
-		           " select * from list" +
-		           " where id=?";
-		
-		PreparedStatement ptmt = conn.prepareStatement(sql);
-		
-		
-		ptmt.setInt(1, id);
-		
-		ResultSet rs = ptmt.executeQuery();
-    	
-		while(rs.next()) {
-			g=new Goddess();
-			g.setId(rs.getInt("id"));
-			g.setName(rs.getString("name"));
-			g.setSex(rs.getString("sex"));
-			g.setAge(rs.getInt("age"));
-			g.setNum(rs.getInt("num"));
-		}
-    	
-    	
-		return g;
-	}
+  
+    public void cha() throws Exception{
+    	 Connection conn = DBUtil.getConnection();
+    	 java.sql.Statement stmt = conn.createStatement();
+  	     ResultSet rs = stmt.executeQuery("select * from list");
+  	   //输出打印结果！
+  	  while(rs.next()) {
+  		System.out.println(rs.getInt("id")+","+rs.getString("name")+","+rs.getString("sex")+","+
+  	                       rs.getInt("age")+","+rs.getInt("num"));
+  	   }  
+    }
+
 }
+
 
 
 
@@ -271,84 +263,86 @@ package com.imooc.action;
 import java.util.List;
 import com.imooc.dao.GoddessDao;
 import com.imooc.model.Goddess;
+import com.imooc.kong.User;
 import java.util.*;
 
 
 public class GoddessAction {
 
 	public void cha() throws Exception{
+		//此处为特定查询
 		GoddessDao g = new GoddessDao();
 		Goddess g1 = new Goddess();
-		//括号内的数字代表的是要查询的数据的ID
-		Goddess g2 = g.set(3);
-		System.out.println(g2.toString());
-
-//		List<Goddess> gs = g.query();
-//		for (Goddess goddess : gs) {
-//			System.out.println(goddess.getId()+","+goddess.getName()+","+goddess.getSex()+","+goddess.getAge()+","+goddess.getNum());
-//		}
+		List<Goddess> gs = g.query("垃圾面");
+			System.out.println(gs.toString());	
 	}
+	
+	
+	
 	
 	public void shan() throws Exception {
 		//删除数据，括号内是删除的数据的ID
 		GoddessDao g = new GoddessDao();
 		Goddess g1 = new Goddess();
-		g.deleteGoddess(3);
+		g.deleteGoddess(5);
+		System.out.println("删除成功！");
 	}
 	
+	
 	public void zeng() throws Exception {
-		//删除数据，括号内是删除的数据的ID
 		GoddessDao g = new GoddessDao();
 		Goddess g1 = new Goddess();
-	
 		g1.setId(1);
 		g1.setName("马面");
 		g1.setSex("女");
 		g1.setAge(21);
 		g1.setNum(10086);
       	g.addGoddess(g1);
+      	System.out.println("成功添加");
 	}
+	
+	
+	
+	
 	
 	public void gai() throws Exception{
 		GoddessDao g = new GoddessDao();
 		Goddess g1 = new Goddess();
 		g1.setId(1);
-		g1.setName("马面");
+		g1.setName("垃圾级");
 		g1.setSex("女");
 		g1.setAge(21);
 		g1.setNum(10086);
 		 //查询单个数据信息，并打印输出
 		g.updateGoddess(g1);
+		System.out.println("修改成功！");
 	}
 	
 	
 	public static void main(String[] args) throws Exception {
-		
-		
-		System.out.println("欢迎来到车辆租聘中心");
-		System.out.println("请选择你所需要的服务：按1查询车辆");
-		Scanner x1= new Scanner(System.in);
-		int x =x1.nextInt();
-		if(x==1) {
-			GoddessAction it = new GoddessAction();
-			it.gai();
-		}
+	
+//		System.out.println("增删改查的顺序依次是：1，2，3，4");
+//		Scanner x1= new Scanner(System.in);
+//		int x =x1.nextInt();
+//		if(x==1) {
+//			GoddessAction it = new GoddessAction();
+//			it.zeng();
+//		}
 //		if(x==2) {
 //			GoddessAction it2 = new GoddessAction();
 //			it2.shan();
 //		}
 //		if(x==3) {
 //			GoddessAction it3 = new GoddessAction();
-//			it3.zeng();
-//			GoddessDao g = new GoddessDao();
-//			Goddess g1 = new Goddess();
-//			Goddess g2 = g.set(3);
-//			System.out.println(g2.toString());
+//			it3.gai();
 //		}
-		
-		
-		
-		
+//		
+//		if(x==4) {
+//			GoddessAction it4 = new GoddessAction();
+//			it4.cha();
+			
+		}
+
 //		g.updateGoddess(g1);
 //		
 
@@ -362,4 +356,4 @@ public class GoddessAction {
 //			System.out.println(goddess.getName()+","+goddess.getSex()+","+goddess.getNum());
 //		}
 	}
-}
+
