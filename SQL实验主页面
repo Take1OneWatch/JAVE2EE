@@ -145,10 +145,10 @@ public class User extends JFrame implements ActionListener {
 	 public void actionPerformed(ActionEvent e) {
 		 String cmd = e.getActionCommand();
 		 if (cmd.equals("查询读者信息")) {
-//			 System.out.println("借阅证号"+","+"姓名"+","+"性别"+","+"单位"+","+"联系电话"+","+"身份证号码"
-//					 +","+"借阅证件类型"+","+"办卡时间"+","+"卡状态");
-//			 System.out.println();
-			 GoddessAction it = new GoddessAction();
+			 System.out.println("借阅证号"+","+"姓名"+","+"性别"+","+"单位"+","+"联系电话"+","+"身份证号码"
+					 +","+"借阅证件类型"+","+"办卡时间"+","+"卡状态");
+			 System.out.println();
+			 GoddessDao it = new GoddessDao();
 			      try {
 					it.cha();
 				} catch (Exception e1) {
