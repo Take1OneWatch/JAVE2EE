@@ -18,27 +18,27 @@ public class DBUtil {
 	private static Connection conn = null;
 	
 	static {
-		try {
-			//加载驱动程序
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		} catch (ClassNotFoundException e) {
-			
-			e.printStackTrace();
-		} 
-		// 2.获得数据库的连接
-
-		// 此处需要设置三个常量来存放地址，用户名，还有密码
-		try {
-		conn = DriverManager.getConnection(URL, USER, PASSWORD);
-		} catch (SQLException e) {
 	
-			e.printStackTrace();
-		}
 
 	}
 	
 	//设置一个外界可以获取这个连接的方法！
 	public static Connection getConnection() {
+		try {
+			//加载驱动程序
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			conn = DriverManager.getConnection(URL, USER, PASSWORD);
+		} catch (ClassNotFoundException e) {	
+			e.printStackTrace();
+		} 
+			// 2.获得数据库的连接
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		// 此处需要设置三个常量来存放地址，用户名，还有密码
+	
 		return conn;
 	}
 	
@@ -48,6 +48,7 @@ public class DBUtil {
 	 
 }
 }
+
 
 
 
@@ -71,22 +72,41 @@ public class Goddess {
 	private String sex;
 	private Integer age;
 	private Integer num;
+	private String zhang;
+	private String mi;
+
+
+	public String getZhang() {
+		return zhang;
+	}
+
+	public void setZhang(String zhang) {
+		this.zhang = zhang;
+	}
+
+
+	public String getMi() {
+		return mi;
+	}
+
+
+
+	public void setMi(String mi) {
+		this.mi = mi;
+	}
+
 
 
 	public Integer getId() {
 		return id;
 	}
 
+	
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public Integer getAge() {
-		return age;
-	}
-
-	public void setAge(Integer age) {
-		this.age = age;
-	}
+	
 
 	public String getName() {
 		return name;
@@ -103,6 +123,14 @@ public class Goddess {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
+	
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 
 	public Integer getNum() {
 		return num;
@@ -111,16 +139,19 @@ public class Goddess {
 	public void setNum(Integer num) {
 		this.num = num;
 	}
+	
+    
+	
 
 	@Override
 	public String toString() {
-		return "Goddess [id=" + id + ", name=" + name + ", sex=" + sex + ", age=" + age + ", num=" + num + "]";
+		return "Goddess [zhang=" + zhang + ", mi=" + mi + "]";
 	}
 	
 	
 	
-	
 }
+
 
 
 
@@ -162,6 +193,8 @@ public class GoddessDao {
 		ptmt.setInt(4, g.getAge());
 		ptmt.setInt(5, g.getNum());
 		ptmt.execute();
+		
+		conn.close();
 	}
 	
 
@@ -182,6 +215,7 @@ public class GoddessDao {
 		ptmt.setInt(5, g.getNum());
 		ptmt.setInt(6, g.getId());
 		ptmt.execute(); 
+		conn.close();
 		
 	}
     
@@ -195,55 +229,145 @@ public class GoddessDao {
 		ptmt.setInt(1, id);
 		//execute函数用于新增，修改，删除数据库的操作
 		ptmt.execute();
+		conn.close();
 
     	 
 	}
-   //这里是对数据库进行指定的操作
-    //查询单个女神的信息
-   public java.util.List<Goddess> query(String name) throws Exception{
-	   java.util.List<Goddess> gs = new ArrayList<Goddess>();
+//   这里是对数据库进行指定的操作
+//    查询单个女神的信息
+//   public java.util.List<Goddess> query(String name) throws Exception{
+//	   java.util.List<Goddess> gs = new ArrayList<Goddess>();
+//	   //从DBUil类中拿到连接
+//	   Connection conn = DBUtil.getConnection();
+//
+//	   StringBuilder x = new StringBuilder();
+//	   x.append(" select * from list ");
+//	   x.append(" where name = ? ");
+//	   
+//	   PreparedStatement stmt = conn.prepareStatement(x.toString());
+//	   stmt.setString(1,name);
+//	   //此处executeQuery为查询数据库的特定语句
+//	   ResultSet rs = stmt.executeQuery();
+//
+//	   Goddess g = null;
+//	   
+//	   //输出打印结果！
+//	  while(rs.next()) {
+//		  g = new Goddess();
+//		  g.setId(rs.getInt("id"));
+//		  g.setName(rs.getString("name"));
+//		  g.setSex(rs.getString("sex"));
+//		  g.setAge(rs.getInt("age"));
+//		  g.setNum(rs.getInt("num"));
+//		  gs.add(g);  
+//	   }  
+//	   //返回集合
+//	   return gs;
+//   }
+   
+   
+   
+  //读取用户数据库，获取账号和密码
+   public java.util.List<Goddess> query(String zhang) throws Exception{
+	   java.util.List<Goddess> gs1 = new ArrayList<Goddess>();
 	   //从DBUil类中拿到连接
 	   Connection conn = DBUtil.getConnection();
-
 	   StringBuilder x = new StringBuilder();
-	   x.append(" select * from list ");
-	   x.append(" where name = ? ");
+	   x.append(" select * from Dome ");
+	   x.append(" where zhang = ? ");
 	   
 	   PreparedStatement stmt = conn.prepareStatement(x.toString());
-	   stmt.setString(1,name);
+	   stmt.setString(1,zhang);
 	   //此处executeQuery为查询数据库的特定语句
 	   ResultSet rs = stmt.executeQuery();
-
-	   Goddess g = null;
+	   Goddess g1 = null;
 	   
 	   //输出打印结果！
 	  while(rs.next()) {
-		  g = new Goddess();
-		  g.setId(rs.getInt("id"));
-		  g.setName(rs.getString("name"));
-		  g.setSex(rs.getString("sex"));
-		  g.setAge(rs.getInt("age"));
-		  g.setNum(rs.getInt("num"));
-		  gs.add(g);
-
+		  g1 = new Goddess();
+		  g1.setZhang(rs.getString("zhang"));
+		  g1.setMi(rs.getString("pwd"));
+		  gs1.add(g1); 
 	   }  
+	  conn.close();
+	  rs.close();
 	   //返回集合
-	   return gs;
+	   return gs1;
    }
+
    
-  
+   
+    //查询全部数据
     public void cha() throws Exception{
     	 Connection conn = DBUtil.getConnection();
     	 java.sql.Statement stmt = conn.createStatement();
-  	     ResultSet rs = stmt.executeQuery("select * from list");
+  	     ResultSet rs = stmt.executeQuery("select * from 读者信息");
   	   //输出打印结果！
   	  while(rs.next()) {
-  		System.out.println(rs.getInt("id")+","+rs.getString("name")+","+rs.getString("sex")+","+
-  	                       rs.getInt("age")+","+rs.getInt("num"));
-  	   }  
+  		System.out.println(rs.getString("借阅证号")+","+rs.getString("姓名")+","+rs.getString("性别")+","+
+  	                       rs.getString("单位")+","+rs.getString("联系电话")+","+rs.getString("身份证号码")
+  	                     +","+rs.getString("借阅证件类型")+","+rs.getDate("办卡时间")+","+
+  	                       rs.getInt("卡状态")
+  				);
+  	System.out.println("");
+  	   }
+  	  rs.close();
+  	  conn.close();
     }
+    
+    
+ //写入账号信息（用于注册界面）
+ public void addGoddess1(Goddess g) throws SQLException {
+		Connection conn = DBUtil.getConnection();
+		String sql = " "+
+		           " insert into Dome"+
+				   " (zhang,pwd) "+
+		           " values( "+
+				   " ?,?) ";
+		
+		PreparedStatement ptmt = conn.prepareStatement(sql);
+		ptmt.setString(1,g.getZhang());
+		ptmt.setString(2,g.getMi());
+		ptmt.execute();
+		
+		
+	  	  conn.close();
+	}
+ 
+ 
+ 
+ 
+//      public java.util.List<Goddess> get(String zhang) throws SQLException{
+//    	  java.util.List<Goddess> gs = new ArrayList<Goddess>();
+//    	 Connection conn = DBUtil.getConnection();
+//    	 StringBuilder x = new StringBuilder();
+//  	   x.append(" select * from Dome ");
+//  	   x.append(" where zhang = ? ");
+//  	   
+//  	   PreparedStatement stmt = conn.prepareStatement(x.toString());
+//  		
+//  		PreparedStatement ptmt = conn.prepareStatement(x.toString());
+//  		ptmt.setString(1,zhang);
+//  		ResultSet rs = ptmt.executeQuery();
+//  		Goddess g1 = null;
+//  		while(rs.next()) {
+//  			g1 = new Goddess();
+//  			g1.setZhang(rs.getString("zhang"));
+//      		g1.setMi(rs.getString("pwd"));
+//  			gs.add(g1);
+//  			
+//  		} 
+//		return gs;  
+//      } 
+
+
+
+
+    
+    
 
 }
+
 
 
 
@@ -269,22 +393,48 @@ import java.util.*;
 
 
 public class GoddessAction {
-    
-	
+
 	String x,x1;
 	
-	public void cha() throws Exception{
-		//此处为特定查询
+//	public void cha() throws Exception{
+//		//此处为特定查询
+//	
+//		GoddessDao g = new GoddessDao();
+//		List<Goddess> gs = g.query("垃圾面");
+//			System.out.println(gs.toString());	
+//		//	System.out.println(gs.get(0).getAge());	
+//			int x = gs.get(0).getAge();
+//			System.out.println(x);
+//	}
 	
+	public void cha() throws Exception{
+		String x;
 		GoddessDao g = new GoddessDao();
-		Goddess g1 = new Goddess();
-		List<Goddess> gs = g.query("垃圾面");
-			System.out.println(gs.toString());	
-		//	System.out.println(gs.get(0).getAge());	
-			int x = gs.get(0).getAge();
-			System.out.println(x);
+		List<Goddess> gs = g.query("2");
+		
+			System.out.println(gs.get(0).getMi());	
+		//	String x = gs.get(0).getAge();
+		//	System.out.println(x);
+		
+//		
+//		Goddess g2 = g.get("2");
+//		x = g2.getMi();
+//		System.out.println(x);
+//		System.out.println(g2.toString());
+//		System.out.println("111");
 	}
 	
+//	public void cha1() throws Exception{
+//		//此处为特定查询
+//	
+//		GoddessDao g = new GoddessDao();
+//		List<Goddess> gs = g.query("2");
+//			System.out.println(gs.toString());	
+//		//	System.out.println(gs.get(0).getAge());	
+//			int x = gs.get(0).getAge();
+//			System.out.println(x);
+//	}
+//	
 	
 	
 	
@@ -312,13 +462,11 @@ public class GoddessAction {
 	
 	public void zeng1() throws Exception {
 	    SignIn t = new SignIn();
-	    
-	    
 		GoddessDao g = new GoddessDao();
 		Goddess g1 = new Goddess();
 		g.addGoddess(g1);
 		g1.setZhang("");
-		g1.setKey("45645456456");
+	//	g1.setKey("45645456456");
       	System.out.println("成功添加");
 	}
 	
@@ -342,25 +490,25 @@ public class GoddessAction {
 	
 	public static void main(String[] args) throws Exception {
 	
-//		System.out.println("增删改查的顺序依次是：1，2，3，4");
-//		Scanner x1= new Scanner(System.in);
-//		int x =x1.nextInt();
-//		if(x==1) {
-//			GoddessAction it = new GoddessAction();
-//			it.zeng();
-//		}
-//		if(x==2) {
-//			GoddessAction it2 = new GoddessAction();
-//			it2.shan();
-//		}
-//		if(x==3) {
-//			GoddessAction it3 = new GoddessAction();
-//			it3.gai();
-//		}
-//		
-//		if(x==4) {
-//			GoddessAction it4 = new GoddessAction();
-//			it4.cha();
+		System.out.println("增删改查的顺序依次是：1，2，3，4");
+		Scanner x1= new Scanner(System.in);
+		int x =x1.nextInt();
+		if(x==1) {
+			GoddessAction it = new GoddessAction();
+			it.zeng();
+		}
+		if(x==2) {
+			GoddessAction it2 = new GoddessAction();
+			it2.shan();
+		}
+		if(x==3) {
+			GoddessAction it3 = new GoddessAction();
+			it3.gai();
+		}
+		
+		if(x==4) {
+			GoddessAction it4 = new GoddessAction();
+			it4.cha();
 			
 		}
 
@@ -375,6 +523,5 @@ public class GoddessAction {
 //		
 //		for (Goddess goddess : gs) {
 //			System.out.println(goddess.getName()+","+goddess.getSex()+","+goddess.getNum());
-//		}
+		}
 	}
-
